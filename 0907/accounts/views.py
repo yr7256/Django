@@ -1,4 +1,3 @@
-from multiprocessing import context
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, PasswordChangeForm
 from .forms import CustomUserCreationForm, CustomUserChangeForm
@@ -7,6 +6,7 @@ from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods, require_POST
+from django.contrib.auth import get_user_model
 
 
 # Create your views here.
@@ -83,3 +83,10 @@ def change_password(request):
         'form': form,
     }
     return render(request, 'accounts/change_password.html', context)
+
+def index(request):
+    user_info = get_user_model().objects.values()
+    context = {
+        'user_info': user_info,
+    }
+    return render(request, 'accounts/index.html', context)
